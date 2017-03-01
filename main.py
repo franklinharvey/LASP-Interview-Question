@@ -22,7 +22,8 @@ def json_method(inputFile):
 	"""
 	reader = csv.DictReader(inputFile)
 	data = list(reader)
-	for row in data:
+	
+	for row in data: #replace numbers with true_val
 		row['Stupidity'] = find_true_val(row['Stupidity'])
 		row['Courage'] = find_true_val(row['Courage'])
 	
@@ -50,8 +51,10 @@ def xml_method(inputFile):
 		else:
 			outputString += '	' + '<Kerban>' + "\n"
 			for i in range(0,len(row)):
-				if tags[i] == "Courage" or tags[i] == "Stupidity":
+				
+				if tags[i] == "Courage" or tags[i] == "Stupidity": #replace numbers with true_val
 					row[i] = find_true_val(row[i])
+
 				outputString += '		' + '<' + str(tags[i]) + '>' + str(row[i]) + '</' + str(tags[i]) + '>' + "\n"
 			outputString += '	' + '</Kerban>' + "\n"
 		rowNum += 1
@@ -60,6 +63,13 @@ def xml_method(inputFile):
 	return outputString
 
 def find_true_val(number):
+	"""
+	Takes a formatted number:
+
+	number = tan(true_val * PI / 100.0 - (PI/2))
+
+	and unwraps to return true_val
+	"""
 	number = float(number)
 	pi = math.pi
 	number = math.atan(number)
